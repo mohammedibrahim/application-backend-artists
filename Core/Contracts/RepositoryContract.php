@@ -31,7 +31,7 @@ interface RepositoryContract
      * @param string $token
      * @return array
      */
-    public function showByToken(string $token): array;
+    public function showByToken(string $token): EntityContract;
 
     /**
      * Save resource data.

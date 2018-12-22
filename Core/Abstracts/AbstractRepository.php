@@ -59,10 +59,10 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Rep
      * Show Resource item by token.
      *
      * @param string $token
-     * @return array
+     * @return EntityContract
      * @throws \ReflectionException
      */
-    public function showByToken(string $token): array
+    public function showByToken(string $token): EntityContract
     {
         $data = $this->findOneBy(['token' => $token]);
 
@@ -72,7 +72,7 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Rep
             throw new NotFoundException(sprintf('We couldn\'t find %s with the given token "%s" in our records!', $reflect->getShortName(), $token));
         }
 
-        return [$data];
+        return $data;
     }
 
     /**

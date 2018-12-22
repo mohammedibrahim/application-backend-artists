@@ -77,7 +77,7 @@ abstract class AbstractService implements ServiceContract
 
         $response = $this->repository->showByToken($token);
 
-        return (new ResponseFactory())->create($response);
+        return (new ResponseFactory())->create([$response]);
     }
 
     /**

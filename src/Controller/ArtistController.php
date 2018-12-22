@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArtistController extends AbstractController
 {
-
     /**
      * Get list of articles in database.
      *
