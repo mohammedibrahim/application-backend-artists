@@ -102,7 +102,7 @@ abstract class AbstractService implements ServiceContract
      *
      * @return string
      */
-    public function generateToken()
+    public function generateToken(): string
     {
         $tokenExists = true;
 
