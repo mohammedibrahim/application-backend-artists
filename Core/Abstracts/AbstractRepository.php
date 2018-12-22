@@ -12,6 +12,7 @@ namespace Core\Abstracts;
 
 use Core\Contracts\EntityContract;
 use Core\Contracts\RepositoryContract;
+use Core\Exceptions\NotFoundException;
 use Core\Factories\EntityFactory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -59,10 +60,19 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Rep
      *
      * @param string $token
      * @return array
+     * @throws \ReflectionException
      */
     public function showByToken(string $token): array
     {
-        return [$this->findOneBy(['token' => $token])];
+        $data = $this->findOneBy(['token' => $token]);
+
+        if (!$data) {
+            $reflect = new \ReflectionClass($this->entityInstance);
+
+            throw new NotFoundException(sprintf('We couldn\'t find %s with the given token "%s" in our records!', $reflect->getShortName(), $token));
+        }
+
+        return [$data];
     }
 
     /**

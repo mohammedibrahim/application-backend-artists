@@ -27,7 +27,11 @@ class ArtistController extends AbstractController
 
         $request = (new RequestFactory())->create($data);
 
-        return new JsonResponse($service->index($request)->get());
+        return new JsonResponse($service->index($request)->toArray([
+            'attributes' => [
+                'name', 'token', 'albums' => ['title', 'cover', 'token']
+            ]
+        ]));
     }
 
     /**
@@ -42,6 +46,10 @@ class ArtistController extends AbstractController
     {
         $request = (new RequestFactory())->create(['token' => $request->get('token')]);
 
-        return new JsonResponse($service->show($request)->get());
+        return new JsonResponse($service->show($request)->toArray([
+            'attributes' => [
+                'name', 'token', 'albums' => ['title', 'cover', 'token']
+            ]
+        ]));
     }
 }

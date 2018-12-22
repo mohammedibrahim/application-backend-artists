@@ -23,6 +23,13 @@ class AlbumController extends AbstractController
     {
         $request = (new RequestFactory())->create(['token' => $request->get('token')]);
 
-        return new JsonResponse($service->show($request)->get());
+        return new JsonResponse($service->show($request)->toArray(['attributes' => [
+            'title',
+            'cover',
+            'token',
+            'description',
+            'artist' => ['name', 'token'],
+            'songs' => ['title', 'length'],
+        ]]));
     }
 }

@@ -24,4 +24,12 @@ interface ResponseContract
      * @return mixed
      */
     public function get(): array;
+
+    /**
+     * Convert response to array.
+     *
+     * @param array $context
+     * @return array
+     */
+    public function toArray($context = []): array;
 }
