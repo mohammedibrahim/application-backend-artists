@@ -12,6 +12,7 @@ namespace Core\Factories;
 
 use Core\Contracts\ResponseContract;
 use Core\CoreClasses\CoreResponse;
+use Core\CoreClasses\CoreSerializer;
 
 /**
  * Create new instance from the response class
@@ -29,6 +30,6 @@ class ResponseFactory
      */
     public function create(array $data): ResponseContract
     {
-        return new CoreResponse($data);
+        return new CoreResponse($data, new CoreSerializer());
     }
 }

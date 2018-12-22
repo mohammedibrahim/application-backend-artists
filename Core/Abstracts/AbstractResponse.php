@@ -11,10 +11,7 @@
 namespace Core\Abstracts;
 
 use Core\Contracts\ResponseContract;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Core\Contracts\SerializerContract;
 
 /**
  * Abstract class of response
@@ -30,6 +27,15 @@ abstract class AbstractResponse implements ResponseContract
      * @var array
      */
     protected $data;
+
+    protected $response;
+
+    protected $serializer;
+
+    public function __construct(SerializerContract $serializer)
+    {
+        $this->serializer = $serializer->get();
+    }
 
     /**
      * Get response data.
@@ -49,16 +55,10 @@ abstract class AbstractResponse implements ResponseContract
      */
     public function toArray($context = []): array
     {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = new ObjectNormalizer();
-        $normalizers->setCircularReferenceHandler(function ($object, string $format = null, array $context = array()) {
-            return $object->getId();
-        });
-
         $response = [];
 
         foreach ($this->data as $row) {
-            $response[] = (new Serializer([$normalizers], $encoders))->normalize($row, null, $context);
+            $response[] = $this->serializer->normalize($row, null, $context);
         }
 
         return $response;
